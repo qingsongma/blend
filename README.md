@@ -1,6 +1,6 @@
 Blend
 
-=================================================================
+-------------------------------------------------------------------------------------------------
 
 Blend is a combined machine translation metric that achieves
 high correlation with human evaluation both on system and segment
@@ -15,7 +15,7 @@ For more details, please see the paper:
 
 Environment Requirements
 
-=================================================================
+-------------------------------------------------------------------------------------------------
 
 1. Linux
 
@@ -28,7 +28,7 @@ Environment Requirements
 
 Installation
 
-=================================================================
+-------------------------------------------------------------------------------------------------
 
 The installation commands on a Unix terminal are as follows:
 
@@ -36,7 +36,9 @@ The installation commands on a Unix terminal are as follows:
 
 Then there will be a directory: Blend
 
-2. cd /Blend/tools/terp.v1/
+2. cd /Blend/tools/terp.v1/ 
+
+Download the compressed paraphrase table (`unfiltered_phrasetable.txt.gz`) from https://github.com/snover/terp/releases to the `pt_en` directory and uncompress it. 
 
 bin/create_phrasedb pt_en/unfiltered_phrasetable.txt data/phrases.db
 
@@ -46,7 +48,7 @@ mv /Blend/tools/dpmf/tools/lexparser-test.sh /Blend/tools/dpmf/tools/stanford-pa
 
 File Overview
 
-=================================================================
+-------------------------------------------------------------------------------------------------
 
 /docs - This directory contains the reference of Blend.
 
@@ -62,7 +64,7 @@ File Overview
 
 Usage
 
-=================================================================
+-------------------------------------------------------------------------------------------------
 
 > ./run-train.sh src_file ref_file mt_file human_DA_file src_lan trg_lan
 
@@ -79,7 +81,7 @@ Notice: The arrange of files needed to be the same as that of directory 'samples
 
 Author
 
-=================================================================
+-------------------------------------------------------------------------------------------------
 
 Qingsong Ma
 
