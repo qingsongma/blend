@@ -1,0 +1,33 @@
+<!--
+  The NIST DTD for evaluation of language translation version 1.1
+  (adapted from LDC DTD for Multiple-Translation Chinese Corpus, version 1.0)
+-->
+
+<!DOCTYPE MTEVAL [
+
+<!ELEMENT MTEVAL O O (srcset|refset|tstset|DOC+)>
+<!ELEMENT (srcset|refset|tstset) - - (DOC+)>
+<!ATTLIST (srcset|refset|tstset)     setid   CDATA            #REQUIRED
+                                     srclang (Chinese|Arabic) #REQUIRED
+                                     trglang (English)        #IMPLIED
+>
+
+<!--
+  Files of type "srcset" contain source documents to be translated.
+  Files of type "refset" contain reference translations to be used in evaluation.
+  Files of type "tstset" contain output translations to be evaluated.
+-->
+
+<!ELEMENT DOC - - ((hl|p|seg)*)>
+<!ATTLIST DOC     docid CDATA #REQUIRED
+                  sysid CDATA #IMPLIED
+>
+
+<!ELEMENT hl - - (seg*)>
+<!ELEMENT p  - - (seg*)>
+
+<!ELEMENT seg  - - (#PCDATA)*>
+<!ATTLIST seg      id CDATA #IMPLIED
+>
+
+]>

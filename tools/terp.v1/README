@@ -1,0 +1,245 @@
+
+-------------------------------------------------------------------------
+
+                Translation Edit Rate (TER) Plus (TERp) 
+                        Installation Instructions
+
+     Copyright (C) 2009 BBN Technologies and University of Maryland
+
+          TERp Homepage: http://www.umiacs.umd.edu/~snover/terp/
+
+-------------------------------------------------------------------------
+
+TERp Version 0.1
+3/9/2009
+
+Matthew Snover
+snover@cs.umd.edu
+
+TERp is a java program that is used to compute the translation edit
+rate metric (also known as translation error rate or TER), as well as
+the extension of TER known as TER-Plus or TERp (named after the
+University of Maryland mascot: the Terrapin, so its pronounced
+"terp").  TERp computes the edit distance between a hypothesized
+translation (or MT output) and a reference translation using several
+edit types.  More details on TERp are available online at:
+  
+   http://www.umiacs.umd.edu/~snover/terp/
+
+References to TERp should cite:
+   Matthew Snover, Nitin Madnani, Bonnie Dorr, and Richard Schwartz,
+   "Fluency, Adequacy, or HTER? Exploring Different Human Judgments
+   with a Tunable MT Metric", Proceedings of the Fourth Workshop on
+   Statistical Machine Translation at the 12th Meeting of the European
+   Chapter of the Association for Computational Linguistics
+   (EACL-2009), Athens, Greece, March, 2009.
+
+========================================================
+
+This software is distributed under the LICENSE contained in LICENSE.txt
+
+This software makes use of the Berkeley DB Java Edition version
+3.3.75, which is distributed under the license in LICENSE_DB.txt.
+While the core classes of the Berkeley DB are included in the TERp
+release, the source code and are available at:
+http://www.oracle.com/technology/software/products/berkeley-db/je/index.html
+
+This software also makes use of Brett Spell's Java API for WordNet
+Searching (JAWS), available at: http://lyle.smu.edu/~tspell/jaws
+
+========================================================
+
+This document provides a brief overview of the installion and usage of
+TERp. Detailed Documentation for TERp can be found online at:
+  http://www.umiacs.umd.edu/~snover/terp/doc_v1.html
+
+INSTALLATION and SETUP
+========================================================
+
+See SETUP for details on setting up TERp.
+
+FILE OVERVIEW
+========================================================
+ /README - This is the file you are reading.
+
+ /SETUP - This text file describes the installation and setup of TERp.
+
+ /LICENSE.txt - The license for TERp
+ /LICENSE_DB.txt - The license for the Berkeley DB that TERp uses
+
+ /build.xml - This file specifies how the ant program should compile
+the Java code.
+
+ /bin/ - This directory contains scripts that are used to setup TERp and
+simplify the running of TERp.
+
+ /build/ - This file contains the compiled class files.
+
+ /data/ - This directory contains data files and pointers to datafiles
+needed by TERp.  This directory is also where TERp expects to store
+the phrase database created during installation.
+
+ /dist/ - This directory contains the assembled jar files.
+
+ /src/ - This directory contains the Java source code for TERp, as
+well as pre-compiled Java class library files.
+
+ /test/ - This directory contains some sample data files to test TERp
+on, along with the corresponding output files
+
+COMPILING THE CODE
+========================================================
+
+The code comes precompiled and packaged as jar files, so there is no
+need to compile the code.  If you wish to compile the code, the ant
+program (http://ant.apache.org/) is recommended, with the compilation
+procedure stored in build.xml.
+
+to remove the compiled code and compile the code from scratch, run:
+ ant clean; ant
+
+
+USAGE
+========================================================
+
+The following scripts provide easy access to the TERp program, and
+serve as wrappers around java and the default parameter files.
+
+ * bin/create_phrasedb - This script converts a text format phrase
+table to a Berkeley style database that allows for fast searching of
+the phrase table at run time.
+
+ * bin/optimize_terp - This script allows the optimization of the edit
+costs of TERp to maximize correlation with reference judgments.  See
+the online documentation for more details on its use.
+
+ * bin/tercom - This script run the original, non-TERp, version of TER
+0.7.25.  It is not supported as part of this codebase, and its usage
+is no documented here (although it is essentially the same as version
+0.7.25 of TERcom).
+
+ * bin/terp - This script is the most basic TERp wrapper and runs TERp
+with default parameters only.
+
+ * bin/terp_ter - This script runs TERp with the parameters of TER,
+turning off stemming, synonymy, phrase substitutions and using the
+edit costs from TER.  Due to changes in the shift search order,
+results may differ from the TERcom program.
+
+ * bin/terpa - This script runs TERp with parameters that were tuned
+as part of the NIST Metrics MATR 2008 Challenge.  This TERp-A metric
+was optimized for Adequacy on a subset of the MT06 dataset that was
+annotated and distributed by NIST as a development dataset as part of
+the Challenge.
+
+Basic Usage
+==============
+
+terp, terpa and terp_ter
+------------------------
+
+terp, terpa and terp_ter can be run in identical manners, so terp will
+be used for the following examples.
+
+All three programs require at least a reference file and a hypothesis
+(the MT output) file to score.  These files can be in SGML, XML or
+trans format.  Both files should be in the same format.
+
+To run with a given reference and hypothesis:
+  bin/terp -r <reference> -h <hypothesis>
+
+Options to terp can be provided either at the command-line or using
+parameter files (or a combination of these).  Due to the large number
+of options available when running TERp, many options can only be
+specified using parameter files.  Parameter files contain a series of
+lines, each containing a parameter name and its value.  Command-line
+options are overridden by parameter files, and options in later
+parameter files are used over those in earlier parameter files.  
+
+Any arguments given to TERp that are not command-line flags or their
+arguments will be treated as parameter filenames. The reference and
+hypothesis file can also be specified in parameter files, so that terp
+could be run:
+  bin/terp <param-file>
+
+where param-file is:
+Reference File (filename):  <reference>
+Hypothesis File (filename): <hypothesis>
+
+Running TERp in this manner provides minimal output.  Running it with
+the following options will give additional scoring that may prove
+useful.
+  bin/terp -r <reference> -h <hypothesis> -o sum,pra,nist,html,param
+
+This will cause TERp to output a summary file (.sum) that will list
+the number of times each edit occured in each segment, a human
+readable text file (.pra) containing the TERp alignment for each
+segment, an html version of the alignment (.html), as well NIST Metric
+MATR output (nist) giving system, document and segment scores for each
+system being scored, with the scores being scored in a series of .scr
+files.  The options used in this run of TERp are also output a
+parameter file (.param) to enable easy rerunning of scoring and
+logging of parameters used.  More details on output formats can be
+found in the online documentation.
+
+Running TERp with no options (or incorrect options) will cause TERp to
+output its command-line usage.
+
+
+create_phrasedb
+---------------
+
+The create_phrasedb takes a text phrase table and inserts those
+phrases into a Berkeley style database.
+
+bin/create_phrasedb <TEXT_FILE> <DB_FILE>
+
+Where <DB_FILE> is the directory that will contain the files of the
+database.  Existing databases at that location will be added to, not
+overwritten.  If the directory does not exist, the create_phrasedb
+script will create it.
+
+The format of the phrase table text format is shown below.
+
+- PHRASE TABLE TEXT FORMAT -
+
+Each line in the text file can be must be of the form (incorrect
+entries or blank entries are currently silently ignored - not good):
+
+COST <p>PHRASE_1</p> <p>PHRASE_2</p>
+  or
+COST_1 COST_2 <p>PHRASE_1</p> <p>PHRASE_2</p>
+
+COST <p>PHRASE_1</p> <p>PHRASE_2</p> 
+
+indicates that PHRASE_1 in the reference can be substituted with an
+edit cost of COST with PHRASE_2 in the hypothesis.  If phrase table
+adjustment functions are used (as is the case in TERp-A), then it can
+be desirable to have be the probability of PHRASE_1 being a paraphrase
+of PHRASE_2.  This paraphrase is only allowed in one direction: "car
+on fire" in the reference is not considered a paraphrase of "ablaze
+car".
+
+For example, the following line:
+0.15 <p>ablaze car</p> <p>car on fire</p>
+
+indicates that "ablaze car" in the reference is a paraphrase of "car
+on fire" with cost or probability 0.15.
+
+COST_1 COST_2 <p>PHRASE_1</p> <p>PHRASE_2</p>
+  is equivilent to the following two lines (and is thus just a
+  notional shortcut):
+COST_1 <p>PHRASE_1</p> <p>PHRASE_2</p>
+COST_2 <p>PHRASE_2</p> <p>PHRASE_1</p>
+
+For example, the following line in the phrase table:
+0.15 0.6 <p>ablaze car</p> <p>car on fire</p>
+
+is the same as having the following two lines:
+0.15 <p>ablaze car</p> <p>car on fire</p>
+0.6 <p>car on fire</p> <p>ablaze car</p>
+
+If either phrase is blank ("<p> </p>" for example) or if the two
+phrases are identical, the paraphrase will not be inserted into the
+phrase table.
+

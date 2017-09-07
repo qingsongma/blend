@@ -1,0 +1,28 @@
+# Sample commands with explanations of what is being produced.
+#
+# (1) Default condition is to produce BOTH (BLEU & NIST) scores 
+#     with detail level = 0, we include the "-c" flag to score by case
+#
+./mteval-v10.pl -r ref/sample-ref-translations.sgm -s src/sample-source-data.sgm -t tst/sample-tst-translations.sgm -c >score.1.txt
+
+
+#
+# (2) Produce only the NIST scores using case scoring
+#
+./mteval-v10.pl -r ref/sample-ref-translations.sgm -s src/sample-source-data.sgm -t tst/sample-tst-translations.sgm -n -c >score.2.txt
+
+
+#
+# (3) Produce only the BLEU scores using case scoring
+./mteval-v10.pl -r ref/sample-ref-translations.sgm -s src/sample-source-data.sgm -t tst/sample-tst-translations.sgm -b -c >score.3.txt
+
+
+#
+# (4) Produce only the NIST scores with case scoring, include per document scoring
+./mteval-v10.pl -r ref/sample-ref-translations.sgm -s src/sample-source-data.sgm -t tst/sample-tst-translations.sgm -n -c -d 1 >score.4.txt
+
+
+#
+# (5) Produce only the NIST scores with case scoring, include per document scoring and per segment scoring
+./mteval-v10.pl -r ref/sample-ref-translations.sgm -s src/sample-source-data.sgm -t tst/sample-tst-translations.sgm -n -c -d 2 >score.5.txt
+

@@ -1,0 +1,58 @@
+File Overiew
+====================================================================
+
+/blend/ - This is a directory contains feature files.
+    /testFeat.txt 
+        - This file stores features extracted from the test file 
+          (newstest2017.uedin-nmt.4890.ru-en in this sample).
+    /testFeat.txt.scale
+        - This file stores features of testFeat.txt that are scaled to be in [-1,1].
+    /trainFeat.txt
+        - This file contains features extracted from the training file
+          (train.mt-system.toen in this sample).
+    /trainFeat.txt.scale
+        - This file contains features of trainFeat.txt that are scaled to be in [-1,1].
+    /trainFeat.txt.range
+        - This file stores scaling factors of trainFeat.txt, which are used for scaling
+          the test features.
+
+/cmd.sh - This file stores commands for training and testing process.
+
+/data/  - This directory stores preprocessing result files of the training and the testing data
+
+/newstest2017-ruen-ref.en - This is the original reference file of the test data.
+/newstest2017-ruen-src.ru - This is the original source file of the test data.
+/newstest2017.uedin-nmt.4890.ru-en - This is the original machine translation (MT) file of the test data.
+
+/readme - This is the file you are reading.
+
+/run-test.sh - This file contains all commands of the testing process.
+
+/run-train.sh - This file contains all commands of the training process.
+
+/scores/ - This directory contains scores given to the MT files by all incorporated metrics
+
+/train.human.toen -This is the human evaluation results file of the train data.
+/train.mt-system.toen - This is the original MT file of the train data .
+/train.reference.toen - This is the original reference file of the train data.
+/train.source.toen - This is the original source file of the train data.
+
+/testFeat.txt.blend - This is the scores given to the MT file of the test data by metric Blend.
+
+Note:
+Besides the shell scripts, the 3 files of the test data and the 4 files of the train data 
+need to be provided, all other files and directories are generated automaticly when running.
+
+Usage
+====================================================================
+> ./run-train.sh src_file ref_file mt_file human_DA_file src_lan trg_lan
+
+Train a model that can be used to compute the Blend scores of the test data.
+
+> ./run-test.sh src_file ref_file mt_file src_lan trg_lan
+
+Compute the Blend scores given to the MT file of the test data using the trained model.
+
+> ./cmd.sh
+
+A sample command file for training and testing.

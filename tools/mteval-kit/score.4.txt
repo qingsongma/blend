@@ -1,0 +1,28 @@
+MT evaluation scorer began on 2003 Nov 20 at 08:06:57
+command line:  ./mteval-v10.pl -r ref/sample-ref-translations.sgm -s src/sample-source-data.sgm -t tst/sample-tst-translations.sgm -n -c -d 1
+  Evaluation of Chinese-to-English translation using:
+    src set "mt_scoring_kit_v0" (4 docs, 34 segs)
+    ref set "mt_scoring_kit.v0-ref" (1 refs)
+    tst set "mt_scoring_kit_v0" (1 systems)
+
+NIST score using   5-grams = 3.7474 for system "11" on document "chtb_003" (9 segments, 279 words)
+NIST score using   5-grams = 3.9598 for system "11" on document "chtb_020" (6 segments, 315 words)
+NIST score using   5-grams = 4.5041 for system "11" on document "chtb_023" (10 segments, 320 words)
+NIST score using   5-grams = 3.7043 for system "11" on document "chtb_050" (9 segments, 309 words)
+NIST score = 4.0011  for system "11"
+
+# ------------------------------------------------------------------------
+
+Individual N-gram scoring
+        1-gram   2-gram   3-gram   4-gram   5-gram   6-gram   7-gram   8-gram   9-gram
+        ------   ------   ------   ------   ------   ------   ------   ------   ------
+ NIST:  3.5138   0.4304   0.0552   0.0018   0.0000   0.0000   0.0000   0.0000   0.0000  "11"
+
+
+# ------------------------------------------------------------------------
+Cumulative N-gram scoring
+        1-gram   2-gram   3-gram   4-gram   5-gram   6-gram   7-gram   8-gram   9-gram
+        ------   ------   ------   ------   ------   ------   ------   ------   ------
+ NIST:  3.5138   3.9442   3.9994   4.0011   4.0011   4.0011   4.0011   4.0011   4.0011  "11"
+
+MT evaluation scorer ended on 2003 Nov 20 at 08:07:08

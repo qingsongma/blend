@@ -1,0 +1,4 @@
+WordNet Database Directory (filename)    : /usr/local/WordNet-3.0//dict/
+Shift Stop Word List (string)            : /home/jgimenez/workspace/iqmt/tools/terp.v1//data/shift_word_stop_list.txt
+Phrase Database (filename)               : /home/jgimenez/workspace/iqmt/tools/terp.v1//data/phrases.db
+

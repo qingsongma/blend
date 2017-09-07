@@ -1,0 +1,7 @@
+wmt1516-en-trainFeat.model is the model trained based on direct assessment (DA)
+data of all to-English language pairs from WMT15 to WMT16.
+
+* The training process of wmt1516-en-trainFeat.model is in directory sample, and
+wmt1516-en-trainFeat.model is the same as trainFeat.txt.scale.model in directory sample.
+
+wmt1516-en-trainFeat.range is the file needed when using wmt1516-en-trainFeat.model.

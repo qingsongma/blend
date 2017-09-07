@@ -1,0 +1,272 @@
+
+The NIST MT evaluation kit uses a single perl script (mteval-vxx.pl)
+to produce a translation quality score for one (or more) MT systems.
+It does this by comparing the system output translation with a set of
+(expert) reference translations of the same source text.  Comparison
+is based on finding sequences of words in the reference translations
+that match word sequences in the system output translation.  More
+information on the evaluation algorithm may be obtained from the IBM
+web site http://domino.watson.ibm.com/library/CyberDig.nsf/home (use
+the keyword RC22176).
+
+
+MTEVAL ARGUMENTS
+================
+
+mteval-vxx.pl takes three arguments:
+  -r <ref_file> is a file containing the reference translations.
+      (The format for this file is as described below for refset.)
+  -s <src_file> is a file containing the source documents.
+      (The format for this file is as described below for refset.)
+  -t <tst_file> is a file containing the system output translations.
+      (The format for this file is as described below for tstset.)
+
+
+MT DATA FORMATS
+===============
+
+A single MT evaluation test is defined by the following SGML tag:
+
+  <MT_eval srcset="[tst-set-name]"
+           refset="[ref-set-name]"
+           srclang="[src-lang]"
+           trglang="[tgt-lang]">
+
+  where:       srcset: identifies the set of source documents
+                       to be evaluated.
+               refset: identifies the set of reference
+                       translations used to score the src_set.
+              srclang: identifies the language of the source
+                       documents.
+              trglang: identifies the language to which the 
+                       source documents are to be translated.
+
+The format for SOURCE DOCUMENTS:
+               -----------------
+  <srcset setid="[tst-set-name]"
+           srclang="[src-lang]">
+  <DOC docid="[doc-name]">
+        [source language data]
+  </DOC>
+     .
+     .
+  </srcset>
+
+  where:  setid: is a unique identifier for the set of source data, 
+                 such as: "mt_scoring_kit.v0"
+  
+          docid: is a unique identifier for each document in the MT
+                 corpora.
+
+The format for MT SYSTEM OUTPUT:
+               -----------------
+  <tstset setid="[tst-set-name]"
+        srclang="[src-lang]"
+        trglang="[tgt-lang]">
+  <DOC docid="[doc-name]" sysid="[system-name]">
+        [translated language data]
+  </DOC>
+     .
+     .
+  </tstset>
+	
+  where:  setID: is the SAME unique identifier for the source set, as
+                 was identified in the source documents "<srcset>".
+
+          docID: is the unique identifier for each document in the MT
+                 corpora.
+
+          sysID: is the site-chosen MT system identifier. This name
+                 will be used to identify the system in the scoring
+                 reports.
+
+The format for REFERENCE DOCUMENTS:
+               --------------------
+  <refset setid="[ref-set-name]"
+           srclangu="[src-lang]"
+           trglang="[tgt-lang]">
+  <DOC docid="[doc-name]" sysid="[system-name]">
+        [translated language data]
+  </DOC>
+     .
+     .
+  </refset>
+
+  where:  setid: is the ref-set-name identified in the "<MT_eval>"
+                 tag.
+
+          docid: is the unique identifier for each document in the MT
+                 corpora.
+
+          sysid: identifies the source of the reference translation.
+                 Note, in MT evaluations it will be common to have
+                 multiple reference translations of each document.
+
+With this scheme, a unique experiment is defined by the unique
+combination of a unique ref-set-name and a unique tst-set-name.
+
+
+DOCUMENT STRUCTURE
+==================
+
+Translation must be performed on a segment-by-segment basis, and the
+number of segments in a translation output of a document must be equal
+to the number of segments in the source document.  Each segment in the
+output translation of a system is compared with the corresponding
+segment of the reference translations, so the translation output
+segments must match the source document segments.  Each segment
+may comprise one or more sentences.
+
+Each language data segment in a document must be tagged with a
+segment tag.  For example:
+
+    <seg> This is a sample language data segment. </seg>
+
+EXAMPLES OF INPUT AND OUTPUT DATA
+=================================
+
+Here is an example definition of an MT evaluation:
+
+<MT_eval srcset="kit-test.s0"
+         refset="kit-test.r0"
+         srclang="German"
+         trglang="English">
+
+                #########################
+
+Here is an example of source data:
+
+<srcset setid="kit-test.s0"
+        srclang="German">
+
+<DOC docid="ZDFheute-5334-7015">
+<seg>Er bot auch Verhandlungen für den Fall an, dass die USA
+ nicht mit einem Prozess in Afghanistan einverstanden sind.</seg>
+<seg>Saif ließ aber offen, ob die Taliban auch bereit wären,
+ Bin Laden auszuliefern. «Wir werden nie etwas tun, was gegen den
+ Islam oder die afghanische Kultur ist», sagte Saif.</seg>
+<seg>Beobachter sind der Ansicht, dass Saifs Angebot für
+ Verhandlungen ernst gemeint ist, da er noch am Wochenende mit der
+ Taliban-Führung in Kandahar im Süden Afghanistans gesprochen hatte.
+ </seg>
+</DOC>
+
+</srcset>
+
+                #########################
+
+Here is an example of translation output data:
+
+<tstset setid="kit-test-s0"
+         srclang="German"
+	 trglang="English">
+
+<DOC docid="ZDFheute-5334-7015" sysid="WL001">
+<seg>It offered also negotiations for the case that the USA
+ do not agree with a process in Afghanistan.</seg>
+<seg>Saif left however, whether the Taliban would be also
+ ready, is loading open to be delivered.  " we will never do
+ something, what against the Islam or the Afghan culture is ",
+ said Saif.</seg>
+<seg>Observers are the opinion that Saifs supply for
+ negotiations is seriously meant, since he had spoken still on
+ weekend with the Taliban guidance in Kandahar in the south of
+ Afghanistan.</seg>
+</DOC>
+
+</tstset>
+
+
+RUNNING MTEVAL
+==============
+
+mteval.cmds.txt demonstrates how to run mteval on
+a sample set of translations of a set of 4 source documents.
+
+ * There is only one reference translation for each document.  The
+   reference translations are contained in a subdirectory called
+   "ref".
+
+ * There is only one system output translation for each document.  The
+   output translations are contained in a subdirectory called "tst".
+   The system is called "11".
+
+ * The evaluation output is contained in a files called "score.?.txt".
+
+ * The four source documents are Chinese text.  The source documents
+   are contained in a subdirectory called "src".
+   N.B.: This material is copyrighted by FBIS and is the property of
+   U.S. Government.  This material is for research use only. The FBIS
+   copyright policy from its website is attached at the end of this
+   note as appendix A-1.
+
+ * To run mteval on new English translations of the sample source
+   data, do the following:
+     1) Produce the translations of the data in subdirectory src.
+     2) Tag these translations appropriately with sgml tags according
+        to the tst_set format and write the data to an output file.
+     3) Run the mt-eval command as demonstarted in the file 
+        "mteval.cmds.txt".
+
+ * The default output from mteval gives a NIST and BLEU summary score for
+   each system tested.  This NIST score is a modified version of the IBM
+   score which was selected so as to maximize the ability of the score
+   to discriminate between systems.  The score is essentially the avg
+   incremental information (in bits), per word of translated text, 
+   provided by those system output trigrams that match trigrams in
+   the corresponding reference segments.  The score is also deweighted
+   by a length penalty.
+
+   As an option for system diagnosis, scores are also available at the
+   document level, and at the segment level within a document.  These
+   scores are also the average incremental information per word, but
+   they are not deweighted by a translation length penalty.
+
+   At the most detailed diagnostic level, each matching ngram is output
+   along with its score (and number of occurrences).
+
+======================================================================
+
+Appendix A-1.  The FBIS copyright policy, from the FBIS website.
+
+What is FBIS' copyright and dissemination policy?  FBIS Reporting
+(translations, transcriptions, summaries, and other products) is
+treated as copyrighted material and is provided for U.S. Government
+purposes under the 'Fair Use' doctrine of copyright law. FBIS
+Reporting is unclassified but categorized collectively as For Official
+Use Only due to contract and/or copyright considerations. FBIS
+Reporting may not be rebroadcast, redistributed, or otherwise
+disseminated outside the U.S. Government without the permission of the
+original source or copyright holder. If dissemination outside of
+U.S. Government channels is required, recipients of FBIS products must
+contact the original source or the copyright holder directly to obtain
+dissemination permission. FBIS Reporting may be gisted or cited in
+bibliographic form outside the receiving office/agency, with an
+indication that the material was obtained via FBIS; however, copying,
+dissemination, re-publication, or hyperlinking to the FBIS product is
+prohibited without permission of the copyright owner.
+
+U.S. Government components may freely use the full range of
+FBIS-provided open source information to support their official
+business and may disseminated this information to other
+U.S. Government components. Unless these components have obtained
+redistribution permission from FBIS or directly from the copyright
+holder, however, they may not disseminate FBIS products to
+non-U.S. Government personnel, including the general public, even if
+information dissemination is part of their charter. U.S. Government
+components may not share FBIS Online account passwords outside their
+component or to external users without FBIS permission.
+
+Only U.S. Government components may use FBIS open source information
+on a LAN (Local Area Network) due to copyright and/or contractual
+issues, unless permission is granted by FBIS or the copyright holder.
+
+FBIS Reporting and other products posted on FBIS Online shall not be
+disseminated to the general public in any case. The National Technical
+Information Service, NTIS, clears copyright data with the original
+copyright holder(s) and serves the sole distributor of FBIS
+information to the public. NTIS may be contacted on the Internet at
+URL http://wnc.fedworld.gov or via telephone at (703) 605-6575.
+
+U.S. Government contractors who are granted access to FBIS Online are
+subject to the same restrictions outlined above.
