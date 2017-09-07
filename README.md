@@ -1,7 +1,6 @@
 Blend
 
 -------------------------------------------------------------------------------------------------
-
 Blend is a combined machine translation metric that achieves
 high correlation with human evaluation both on system and segment
 level. 
@@ -13,9 +12,9 @@ For more details, please see the paper:
 "Blend: a Novel Combined MT Metric Based on Direct Assessment 
 --- CASICT-DCU submission to WMT17 Metrics Task"
 
+-------------------------------------------------------------------------------------------------
 Environment Requirements
 
--------------------------------------------------------------------------------------------------
 
 1. Linux
 
@@ -25,10 +24,8 @@ Environment Requirements
 
 4. Perl
 
-
-Installation
-
 -------------------------------------------------------------------------------------------------
+Installation
 
 The installation commands on a Unix terminal are as follows:
 
@@ -46,9 +43,8 @@ bin/create_phrasedb pt_en/unfiltered_phrasetable.txt data/phrases.db
 
 mv /Blend/tools/dpmf/tools/lexparser-test.sh /Blend/tools/dpmf/tools/stanford-parser-full-2013-11-12
 
-File Overview
-
 -------------------------------------------------------------------------------------------------
+File Overview
 
 /docs - This directory contains the reference of Blend.
 
@@ -62,9 +58,9 @@ File Overview
 
 /tools/    - This directory contains all incorporated metrics and other tools needed.
 
+-------------------------------------------------------------------------------------------------
 Usage
 
--------------------------------------------------------------------------------------------------
 
 > ./run-train.sh src_file ref_file mt_file human_DA_file src_lan trg_lan
 
@@ -79,9 +75,8 @@ Compute the Blend scores given to the MT file of the test data using the trained
 Notice: The arrange of files needed to be the same as that of directory 'samples'
 
 
-Author
-
 -------------------------------------------------------------------------------------------------
+Author
 
 Qingsong Ma
 
